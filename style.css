@@ -7,6 +7,59 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-content: center;
+  align-items: center;
   margin: 0;
+}
+
+header {
+  font-size: 5vmin;
+  color: darksalmon;
+  letter-spacing: 1vmin;
+}
+
+h1 {
+  font-size: 3vmin;
+  color: darkgray;
+}
+
+#board {
+  display: grid;
+  grid-template-columns: repeat(3, 10vmin);
+  grid-template-rows: repeat(3, 10vmin);
+  gap: 1vmin;
+  margin-top: 2vmin;
+}
+
+#board > div {
+  border-radius: 30%;
+  border: 0.1vmin solid darkgoldenrod;
+}
+
+button {
+  margin-top: 4vmin;
+  padding: 3vmin;
+  font-size: 2vmin;
+  border-radius: 4vmin;
+  border: 0.1vmin solid lightblue;
+  color: lightblue;
+}
+
+button:hover {
+  background-color: skyblue;
+  color: white;
+}
+button:active {
+  transform: scale(0.9);
+}
+header,
+h1,
+button {
+  text-transform: uppercase;
+  text-align: center;
+}
+
+h1 {
+  font-size: 5vmin;
+  line-height: 2vmin;
+  letter-spacing: 0.5vmin;
 }

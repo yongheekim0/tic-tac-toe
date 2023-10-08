@@ -40,6 +40,7 @@ function init() {
 }
 
 function handleDrop(event) {
+  console.log("clicked");
   if (event.target.innerHTML !== "") {
     return;
   } //Once a mark filled, the eventlistner stops
@@ -50,6 +51,12 @@ function handleDrop(event) {
   }
   messageRender(); // message in each turn
   state.turn *= -1;
+  const winnerCaseArray = [
+    checkHorizontal(),
+    checkVertical(),
+    checkDiagonal(),
+    checkAntiDiagonal(),
+  ];
   winnerCases(); //fuction for 4 cases of win
   handleWinner(winnerCaseArray); // handle state variable of winner for each case
   getWinnerMessage(); // Once winning requirement meets, stop eventhandler and prompt message
@@ -61,13 +68,6 @@ function winnerCases() {
   checkDiagonal();
   checkAntiDiagonal();
 }
-
-const winnerCaseArray = [
-  checkHorizontal(),
-  checkVertical(),
-  checkDiagonal(),
-  checkAntiDiagonal(),
-];
 
 function getWinnerMessage() {
   const drawArray = [...elements.markers].map((marker) => marker.innerText);
@@ -93,6 +93,7 @@ function handleWinner(caseArray) {
   caseArray.forEach((e) => {
     if (e.includes("XXX")) {
       state.winner = 1;
+      console.log(state.winner);
     } else if (e.includes("OOO")) {
       state.winner = -1;
     }

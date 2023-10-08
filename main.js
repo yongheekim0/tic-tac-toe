@@ -40,44 +40,37 @@ function init() {
 }
 
 function handleDrop(event) {
-  console.log("clicked");
-  console.log(state.turn);
   if (event.target.innerHTML !== "") {
     return;
-  }
+  } //Once a mark filled, the eventlistner stops
   if (state.turn === 1) {
     event.target.innerHTML = "<h1 style='color: black;'>X</h1>";
   } else {
     event.target.innerHTML = "<h1 style='color: orange;'>O</h1>";
   }
-  messageRender();
+  messageRender(); // message in each turn
   state.turn *= -1;
-  searchCases();
-  getWinner();
-  draw();
+  winnerCases(); //fuction for 4 cases of win
+  handleWinner(winnerCaseArray); // handle state variable of winner for each case
+  getWinnerMessage(); // Once winning requirement meets, stop eventhandler and prompt message
 }
 
-function searchCases() {
+function winnerCases() {
   checkHorizontal();
   checkVertical();
   checkDiagonal();
   checkAntiDiagonal();
-  checkWinner([
-    checkHorizontal(),
-    checkVertical(),
-    checkDiagonal(),
-    checkAntiDiagonal(),
-  ]);
 }
 
-function draw() {
+const winnerCaseArray = [
+  checkHorizontal(),
+  checkVertical(),
+  checkDiagonal(),
+  checkAntiDiagonal(),
+];
+
+function getWinnerMessage() {
   const drawArray = [...elements.markers].map((marker) => marker.innerText);
-  if (!drawArray.includes("")) {
-    elements.message.innerHTML = "Draw!";
-  }
-}
-
-function getWinner() {
   if (state.winner === 1) {
     elements.message.innerHTML = "X Won!";
     [...elements.markers].forEach((marker) =>
@@ -88,12 +81,16 @@ function getWinner() {
     [...elements.markers].forEach((marker) =>
       marker.removeEventListener("click", handleDrop)
     );
+  } else if (!drawArray.includes("")) {
+    elements.message.innerHTML = "Draw!";
   }
 }
 
-function checkWinner(caseArray) {
+/* Once a casearray contains an element with 
+either XXX or OOO, cache state.winner either 1 or -1 */
+
+function handleWinner(caseArray) {
   caseArray.forEach((e) => {
-    let string = "";
     if (e.includes("XXX")) {
       state.winner = 1;
     } else if (e.includes("OOO")) {
@@ -101,6 +98,8 @@ function checkWinner(caseArray) {
     }
   });
 }
+
+/* I want these functions to be DRYer  */
 
 function checkHorizontal() {
   let xOrOArray = [];
